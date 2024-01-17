@@ -1,16 +1,20 @@
 from typing import Optional
-from pydantic import BaseModel,Field
+from pydantic import BaseModel, Field
 from API.models.utils import Poste
-import datetime
+from datetime import date, datetime
 # User models
 
-class CreateUser(BaseModel):
-    nom: str = Field(min_length=1, max_length=16)
-    age: str = Field(min_length=1, max_length=16)
+class User(BaseModel):
     pseudo : str
-    mdp: str
-    taille: Optional[str] = None
+    age: int
     email: str
-    created_at : Optional[datetime.date] = datetime.date.today()
+    taille: Optional[int] = None
+    created_at : Optional[datetime] = datetime.combine(date.today(), datetime.min.time())
     isActive: Optional[bool] = True
     poste: Poste
+
+class UserInDB(User):
+    hashedPassword: str
+
+    def setHashedPassword(self, password):
+        self.hashedPassword = password
