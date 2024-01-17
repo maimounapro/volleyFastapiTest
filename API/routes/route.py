@@ -55,7 +55,8 @@ async def resultVerification(id: objectid) -> dict:
     await riseHttpExceptionIfNotFound(result, message=_notFoundMessage)
     return result
 
-
+# TODO : - microservice pour la recherche et filtre de tournois
+# TODO : microservice pour le stockage des flyers
 
 
 
