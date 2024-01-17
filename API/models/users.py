@@ -1,7 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel,Field
 from API.models.utils import Poste
-
+import datetime
 # User models
 
 class CreateUser(BaseModel):
@@ -11,6 +11,6 @@ class CreateUser(BaseModel):
     mdp: str
     taille: Optional[str] = None
     email: str
-    created_at : str
-    isActive: Optional[bool] = False
+    created_at : Optional[datetime.date] = datetime.date.today()
+    isActive: Optional[bool] = True
     poste: Poste

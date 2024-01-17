@@ -5,7 +5,12 @@ from API.schemas.serializeObjects import serializeDict, serializeList
 
 
 async def getAllUser() -> list:
-    return serializeList(db.usersData.find())
+    users = serializeList(db.usersData.find())
+
+    return {
+        "taille": len(users),
+        "users": users
+    }
 
 
 async def getById(id):
@@ -14,4 +19,5 @@ async def getById(id):
 
 async def InsertUser(data: CreateUser):
     result = db.usersData.insert_one(dict(data))
+    
     return serializeDict(db.usersData.find_one({"_id": ObjectId(result.inserted_id)}))
