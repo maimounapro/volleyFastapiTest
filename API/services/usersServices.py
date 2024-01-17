@@ -1,6 +1,6 @@
 from bson import ObjectId
 from API.config.database import db
-from API.models.users import User, UserInDB
+from API.models.users import User, UserInDB, UserTemp
 from API.schemas.serializeObjects import serializeDict, serializeList
 from passlib.context import CryptContext
 from fastapi import HTTPException, status
@@ -19,27 +19,20 @@ async def getAllUser() -> list:
 async def getById(id):
     return serializeDict(db.usersData.find_one({"_id": ObjectId(id)}))    
 
-async def insertUser(userData: dict):
-    required_fields = ["age", "pseudo", "taille", "email", "poste", "mdp"]
-    for field in required_fields:
-        if field not in userData:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"Le champ '{field}' est obligatoire.",
-            )
+async def insertUser(userData: UserTemp):
     # check if pseudo already exists
-    if db.usersData.find_one({"pseudo": userData["pseudo"]}):
+    if db.usersData.find_one({"pseudo": userData.pseudo}):
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail="Pseudo already exists",
         )
-    hashedPassword = get_password_hash(userData["mdp"])
+    hashedPassword = get_password_hash(userData.mdp)
     userInDb = UserInDB(
-        pseudo=userData["pseudo"],
-        age=int(userData["age"]),
-        email=userData["email"],
-        taille=int(userData["taille"]),
-        poste=userData["poste"],
+        pseudo=userData.pseudo,
+        age=int(userData.age),
+        email=userData.email,
+        taille=int(userData.taille),
+        poste=userData.poste,
         hashedPassword=hashedPassword
     )
     

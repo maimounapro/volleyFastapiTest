@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from API.services import usersServices as service
 from API.routes.utils import getResponse, riseHttpExceptionIfNotFound
-from API.models.users import User
+from API.models.users import UserTemp
 from bson import objectid
 
 usersRoutes = APIRouter()
@@ -17,7 +17,7 @@ async def getById(id):
     return await resultVerification(id)
 
 @usersRoutes.post(base)
-async def insertUser(userData: dict):
+async def insertUser(userData: UserTemp):
     return await service.insertUser(userData)
 
 async def resultVerification(id: objectid) -> dict:

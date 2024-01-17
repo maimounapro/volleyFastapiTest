@@ -18,3 +18,13 @@ class UserInDB(User):
 
     def setHashedPassword(self, password):
         self.hashedPassword = password
+
+class UserTemp(BaseModel):
+    pseudo : str
+    age: int
+    email: str
+    taille: Optional[int] = None
+    created_at : Optional[datetime] = datetime.combine(date.today(), datetime.min.time())
+    isActive: Optional[bool] = True
+    poste: Poste
+    mdp: str
