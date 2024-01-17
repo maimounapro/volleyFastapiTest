@@ -7,3 +7,4 @@ print('Connected to MongoDB...')
 db = client[settings.MONGO_INITDB_DATABASE]
 
 tournois_collection = db["tournois_collection"]
+usersData = db["usersData"]
