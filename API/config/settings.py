@@ -13,6 +13,9 @@ class Settings(BaseSettings):
     # JWT_ALGORITHM: str
 
     CLIENT_ORIGIN: str
+    ALGORITHM: str
+    SECRET_KEY: str
+    ACCESS_TOKEN_EXPIRE_MINUTES: int
 
     class Config:
         env_file = 'API/.env'

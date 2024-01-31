@@ -1,6 +1,5 @@
 from pydantic import BaseModel, Field, EmailStr
 from typing import Optional
-from enum import Enum
 from API.models.utils import *
 from datetime import datetime
 # Tournois model

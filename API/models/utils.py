@@ -21,3 +21,10 @@ class TeamTypeEnum(str, Enum):
     team_3V = "3v3"
     team_4V = "4v4"
     team_6V = "6v6"
+
+class Poste(str, Enum):
+    passeur = "passeur"
+    central = "central"
+    pointu = "pointu"
+    receptionneurAttaquant = "receptionneur-attaquant"
+    libero = "libero"
