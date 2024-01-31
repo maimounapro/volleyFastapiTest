@@ -37,7 +37,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     access_token = service.create_access_token(
         data={"sub": user["pseudo"]}, expires_delta=access_token_expires
     )
-    return {"access_token": access_token, "token_type": "bearer"}
+    return Token(access_token=access_token, token_type="bearer")
 
 @usersRoutes.get(f"{base}/me/", response_model=User)
 async def read_users_me(current_user: User = Depends(service.get_current_active_user)):

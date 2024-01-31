@@ -10,8 +10,9 @@ from API.config.settings import settings
 from jose import JWTError, jwt
 from API.models.token import TokenData
 from fastapi.security import OAuth2PasswordBearer
+from typing import Annotated
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"/api/v1/users/token")
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -72,21 +73,17 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
         expire = datetime.utcnow() + timedelta(minutes=15)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, key=settings.SECRET_KEY, algorithm=settings.ALGORITHM)
-    print("encoded_jwt:" + encoded_jwt)
     return encoded_jwt
 
 
-async def get_current_user(token: str = Depends(oauth2_scheme)):
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
-        print("token :", token)
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=settings.ALGORITHM)
-        print(payload)
-        # TODO : make the decode work
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
@@ -98,7 +95,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         raise credentials_exception
     return user
 
-async def get_current_active_user(current_user: User = Depends(get_current_user)):
-    if not current_user.isActive:
+async def get_current_active_user(current_user: Annotated[User, Depends(get_current_user)]):
+    if not current_user["isActive"]:
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
