@@ -24,7 +24,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: ${{ secrets.DOCKER_USERNAME }}/volley
+          repository: aminatacmd/volley
           tag_with_ref: true
 
     env:
