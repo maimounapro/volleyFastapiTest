@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  deploy_on_render:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,9 +21,3 @@ jobs:
           repository: aminatacmd/volley
           tag_with_ref: true
 
-      - name: Deploy to Render
-        run: |
-          render deploy --branch main
-        env:
-          RENDER_EMAIL: ${{ secrets.RENDER_EMAIL }}
-          RENDER_PASSWORD: ${{ secrets.RENDER_PASSWORD }}
