@@ -21,8 +21,8 @@ jobs:
   
       - name: Build and Push Docker Image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/volley_api:latest .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/volley_api:latest
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/volley_api:v1 .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/volley_api:v1
 
     env:
       DOCKER_CLI_EXPERIMENTAL: enabled
