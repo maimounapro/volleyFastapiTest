@@ -1,4 +1,6 @@
 __pycache__*
 env
-API/.env
+.env
 .vscode/*
+*.xml
+/.idea/*
