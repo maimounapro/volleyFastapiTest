@@ -19,10 +19,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
   
-      - name: Build and Push Docker Image
-        run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/volley_api .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/volley_api:v1
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: ${{ secrets.DOCKER_USERNAME }}/volley
+          tag_with_ref: true
 
     env:
       DOCKER_CLI_EXPERIMENTAL: enabled
