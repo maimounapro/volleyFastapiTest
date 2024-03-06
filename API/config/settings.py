@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int
 
     class Config:
-        env_file = 'API/.env'
+        env_file = '/Users/aminata/IdeaProjects/volleyFastAPI/.env'
 
 
 settings = Settings()
