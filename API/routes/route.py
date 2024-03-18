@@ -3,6 +3,7 @@ from API.models.tournoi import Tournois, UpdateTournois
 from API.config.database import tournois_collection
 from API.schemas.schemas import list_tournois
 from API.services import tournoisServices as service
+from API.services import aws_s3 as s3
 from API.helpers.save_picture import save_picture
 from API.routes.utils import getResponse, riseHttpExceptionIfNotFound
 from bson import objectid
@@ -25,11 +26,15 @@ async def getTournois():
 async def getTournoi(id):
     return await resultVerification(id)
 
+@router.get("/tournois/"+"{id}"+"/image_url")
+def get_tournament_image(id):
+    return s3.get_object_url(object_name=id)
+
 @router.post("/tournois")
 async def postTournoi(tournoi:Tournois):
-    return await service.insertTournoi(tournoi)
+    return await service.add_tournament(tournoi)
 
-@router.patch("/tournois/" + "{id}")
+@router.patch("/tournois/"+"{id}")
 async def modifyTournois(id, data: UpdateTournois):
     await resultVerification(id)
     done : bool = await service.modifyTournoi(id, data)
