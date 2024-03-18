@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     ALGORITHM: str
     SECRET_KEY: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int
+    BUCKET_NAME: str
 
     class Config:
         env_file = 'API/.env'
