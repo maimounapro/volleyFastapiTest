@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, EmailStr
-from typing import Optional
+from typing import Optional, Union
 from API.models.utils import *
 from datetime import datetime
 # Tournois model
@@ -19,11 +19,11 @@ class Tournois(BaseModel):
     heureFin: datetime.time = None
     isMixte: bool = True
     isFood: bool = True # presence de buverie
-    imageUrl: str or None
+    imageUrl: Optional[str]
     niveau: NiveauEnum
     typeTournoi: TypeTournoisEnum
     typeSol: TypeSolEnum
-    compositionEquipe: TeamTypeEnum or str
+    compositionEquipe: Union[TeamTypeEnum, str]
 
 class UpdateTournois(BaseModel):
     BaseModel.model_config["arbitrary_types_allowed"] = True
