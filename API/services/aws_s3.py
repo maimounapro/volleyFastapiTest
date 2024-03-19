@@ -4,7 +4,10 @@ import boto3
 from botocore.exceptions import ClientError
 from API.config.settings import settings
 
-
+AWS_S3_CREDS = {
+    "aws_access_key_id": settings.AWS_ACCESS_KEY_ID,
+    "aws_secret_access_key": settings.AWS_SECRET_ACCESS_KEY,
+}
 async def upload_file_into_s3(image_path, bucket=settings.BUCKET_NAME, object_name=None, **kwargs):
     """Upload a file to an S3 bucket
 
@@ -19,7 +22,7 @@ async def upload_file_into_s3(image_path, bucket=settings.BUCKET_NAME, object_na
         object_name = os.path.basename(image_path)
 
     # Upload the file
-    s3_client = boto3.client('s3')
+    s3_client = boto3.client('s3', **AWS_S3_CREDS)
     try:
         response = s3_client.upload_file(image_path, bucket, object_name, ExtraArgs={"Metadata": 
                                                                                         {"tournoi_id": kwargs["tournoi_id"]},
@@ -30,7 +33,7 @@ async def upload_file_into_s3(image_path, bucket=settings.BUCKET_NAME, object_na
     return True
     
 def get_object_url(object_name, bucket=settings.BUCKET_NAME):
-    s3_client = boto3.client('s3')
+    s3_client = boto3.client('s3', **AWS_S3_CREDS)
     try:
         response = s3_client.generate_presigned_url('get_object', Params={'Bucket': bucket, 'Key': object_name})
         return response
