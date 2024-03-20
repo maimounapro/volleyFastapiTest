@@ -24,7 +24,7 @@ async def getById(id):
 async def insertUser(userData: UserTemp):
     return await service.insertUser(userData)
 
-@usersRoutes.post(f"{base}/token", response_model=Token)
+@usersRoutes.post(f"{base}/token")
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     user = service.authenticate_user(form_data.username, form_data.password)
     if not user:
@@ -37,7 +37,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     access_token = service.create_access_token(
         data={"sub": user["pseudo"]}, expires_delta=access_token_expires
     )
-    return Token(access_token=access_token, token_type="bearer")
+    return [Token(access_token=access_token, token_type="bearer"), str(user["_id"])]
 
 @usersRoutes.get(f"{base}/me/", response_model=User)
 async def read_users_me(current_user: User = Depends(service.get_current_active_user)):
